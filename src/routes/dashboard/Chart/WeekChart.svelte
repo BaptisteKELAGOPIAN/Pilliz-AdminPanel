@@ -1,0 +1,116 @@
+<script lang="ts">
+  export let dataChart: any; // ou tout autre type que vous attendez
+  import { Line } from 'svelte-chartjs';
+
+  const data = {
+    labels: ['Week', 'Week-1', 'Week-2', 'Week-3'],
+    datasets: [
+      {
+        label: 'Nouveau Utilisateurs',
+        fill: true,
+        lineTension: 0.3,
+        backgroundColor: 'rgba(225, 204,230, .3)',
+        borderColor: 'rgb(205, 130, 158)',
+        borderCapStyle: 'butt',
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: 'rgb(205, 130,1 58)',
+        pointBackgroundColor: 'rgb(255, 255, 255)',
+        pointBorderWidth: 20,
+        pointHoverRadius: 25,
+        pointHoverBackgroundColor: 'rgb(0, 0, 0)',
+        pointHoverBorderColor: 'rgba(220, 220, 220,1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: [dataChart.newUsers.W0, dataChart.newUsers.W1, dataChart.newUsers.W2, dataChart.newUsers.W3],
+      },
+      {
+        label: 'Nouveau Posts',
+        fill: true,
+        lineTension: 0.3,
+        backgroundColor: 'rgba(184, 185, 210, .3)',
+        borderColor: 'rgb(35, 26, 136)',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: 'rgb(35, 26, 136)',
+        pointBackgroundColor: 'rgb(255, 255, 255)',
+        pointBorderWidth: 20,
+        pointHoverRadius: 25,
+        pointHoverBackgroundColor: 'rgb(0, 0, 0)',
+        pointHoverBorderColor: 'rgba(220, 220, 220, 1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: [dataChart.newPosts.W0, dataChart.newPosts.W1, dataChart.newPosts.W2, dataChart.newPosts.W3],
+      },
+      {
+        label: 'Nouveau Likes',
+        fill: true,
+        lineTension: 0.3,
+        backgroundColor: 'rgba(29, 233, 182, .3)',
+        borderColor: 'rgb(29, 233, 182)',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: 'rgb(29, 233, 182)',
+        pointBackgroundColor: 'rgb(255, 255, 255)',
+        pointBorderWidth: 20,
+        pointHoverRadius: 25,
+        pointHoverBackgroundColor: 'rgb(0, 0, 0)',
+        pointHoverBorderColor: 'rgba(220, 220, 220, 1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: [dataChart.newLikes.W0, dataChart.newLikes.W1, dataChart.newLikes.W2, dataChart.newLikes.W3],
+      },
+      {
+        label: 'Nouveau Interaction',
+        fill: true,
+        lineTension: 0.3,
+        backgroundColor: 'rgba(29, 233, 182, .3)',
+        borderColor: 'rgb(29, 233, 182)',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: 'rgb(29, 233, 182)',
+        pointBackgroundColor: 'rgb(255, 255, 255)',
+        pointBorderWidth: 20,
+        pointHoverRadius: 25,
+        pointHoverBackgroundColor: 'rgb(0, 0, 0)',
+        pointHoverBorderColor: 'rgba(220, 220, 220, 1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: [dataChart.newInteraction.W0, dataChart.newInteraction.W1, dataChart.newInteraction.W2, dataChart.newInteraction.W3],
+      }
+    ],
+  };
+  
+  import {
+    Chart as ChartJS,
+    Title,
+    Tooltip,
+    Legend,
+    LineElement,
+    LinearScale,
+    PointElement,
+    CategoryScale,
+  } from 'chart.js';
+
+  ChartJS.register(
+    Title,
+    Tooltip,
+    Legend,
+    LineElement,
+    LinearScale,
+    PointElement,
+    CategoryScale
+  );
+</script>
+
+<Line {data} options={{ responsive: true }} />
