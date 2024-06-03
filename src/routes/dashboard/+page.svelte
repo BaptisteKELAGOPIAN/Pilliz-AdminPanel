@@ -1,8 +1,8 @@
 <script lang="ts">
     import type { Metrics, ChartTemplate } from "./metric.dto";
     import Countup from "svelte-countup";
-    export let data: { metricW0: Metrics[], metricW1: Metrics[], metricW2: Metrics[], metricW3: Metrics[]};
-    import { faUser, faComment, faRightLeft, faHeart, faUsers} from '@fortawesome/free-solid-svg-icons'
+    export let data: { metricW0: Metrics, metricW1: Metrics, metricW2: Metrics, metricW3: Metrics};
+    import { faComment, faRightLeft, faHeart, faUsers} from '@fortawesome/free-solid-svg-icons'
     import Fa from 'svelte-fa'
 
 	import MyChart from "$lib/components/MyChart.svelte";

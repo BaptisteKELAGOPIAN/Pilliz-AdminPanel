@@ -1,12 +1,11 @@
 <script lang="ts">
-	//Import local datatable components
-	import ThSort from './ThSort.svelte';
-	import Search from './Search.svelte';
-	import RowsPerPage from './RowsPerPage.svelte';
-	import RowCount from './RowCount.svelte';
-	import Pagination from './Pagination.svelte';
+	import ThSort from '$lib/tab/ThSort.svelte';
+	import Search from '$lib/tab/Search.svelte';
+	import RowsPerPage from '$lib/tab/RowsPerPage.svelte';
+	import RowCount from '$lib/tab/RowCount.svelte';
+	import Pagination from '$lib/tab/Pagination.svelte';
 
-	import type { Ticket } from "../ticket.dto";
+	import type { Ticket } from "./ticket.dto";
 
 	export let datatable : Ticket[];
 

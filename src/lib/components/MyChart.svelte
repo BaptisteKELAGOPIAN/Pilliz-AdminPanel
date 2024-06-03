@@ -3,8 +3,6 @@
   import Chart from 'chart.js/auto';
   import { modeCurrent } from '@skeletonlabs/skeleton';
 
-
-
   import type { ChartTemplate } from "../../routes/dashboard/metric.dto";
 
   export let dataChart : ChartTemplate;

@@ -3,10 +3,10 @@
 
 	// Stores
 	import { getModalStore } from '@skeletonlabs/skeleton';
-	import type { Ticket } from './ticket.dto';
+	import type { Ticket, TicketResponse, FormData } from './ticket.dto';
 
 	export let parent: SvelteComponent;
-    export let data: Ticket;
+    export let data : { _ticket : Ticket, _ticketResponse : TicketResponse[]};
 
 	const modalStore = getModalStore();
 
@@ -20,6 +20,12 @@
 			hour12: false
 		});
 		return dateString;
+	}
+
+	let formData : FormData = {
+		id : data._ticket.id,
+		status : data._ticket.solved ?'2' : '1',
+		text : '',
 	}
 
 	function onFormSubmit(): void {
@@ -39,20 +45,24 @@
                 <header class="flex justify-between items-center">
                     <small class="opacity-100 text-lg">{$modalStore[0].body ? formatDate($modalStore[0].body) : '(body missing)'}</small>
                 </header>
-                <p class="opacity-500 text-2xl">{data.description}</p>
+				{#if data._ticketResponse.length > 0}
+					{#each data._ticketResponse as ticketReponse}
+						<p class="opacity-500 text-2xl">{ticketReponse.response}</p>
+					{/each}
+				{/if}
             </div>
         </div>
         <form class="modal-form {cForm}">
             <label class="label">
                 <span>Status</span>
-                <select class="select">
-                    <option value="1">En cours</option>
-                    <option value="2">Résolue</option>
+                <select class="select" bind:value={formData.status}>
+                    <option value='1'>En cours</option>
+                    <option value='2'>Résolue</option>
                 </select>
             </label>
             <label class="label">
                 <span>Réponse</span>
-                <textarea class="textarea" rows="4" placeholder="Ecrire votre réponse ici." />
+                <textarea class="textarea" rows="4" placeholder="Ecrire votre réponse ici." bind:value={formData.text}/>
             </label>
 		</form>
 		<footer class="modal-footer {parent.regionFooter}">

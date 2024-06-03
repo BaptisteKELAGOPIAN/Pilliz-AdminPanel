@@ -16,3 +16,16 @@ export type Ticket = {
     solved: boolean;
     solvedAt?: Date;
 }
+
+export type TicketResponse = {
+    id: string;
+    ticketId: string;
+    response: string;
+    createdAt: Date;
+}
+
+export type FormData = {
+    id: string;
+    status: string;
+    text: string;
+}
