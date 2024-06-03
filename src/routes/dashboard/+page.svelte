@@ -1,18 +1,20 @@
 <script lang="ts">
-    import type { Metrics, Chart } from "./metric.dto";
+    import type { Metrics, ChartTemplate } from "./metric.dto";
     import Countup from "svelte-countup";
     export let data: { metricW0: Metrics[], metricW1: Metrics[], metricW2: Metrics[], metricW3: Metrics[]};
     import { faUser, faComment, faRightLeft, faHeart, faUsers} from '@fortawesome/free-solid-svg-icons'
     import Fa from 'svelte-fa'
 
-    import WeekChart from "./Chart/WeekChart.svelte";
+	import MyChart from "$lib/components/MyChart.svelte";
+
+
 
     let dataChart = {
         newUsers : {
-            W0 : data.metricW0.numberOfUsers,
-            W1 : data.metricW1.numberOfUsers,
-            W2 : data.metricW2.numberOfUsers,
-            W3 : data.metricW3.numberOfUsers
+            W0 : data.metricW0.weeklyNumberOfUsers,
+            W1 : data.metricW1.weeklyNumberOfUsers,
+            W2 : data.metricW2.weeklyNumberOfUsers,
+            W3 : data.metricW3.weeklyNumberOfUsers
         },
         newPosts : {
             W0 : data.metricW0.numberOfPosts,
@@ -49,7 +51,21 @@
         weeklyNbReplies : data.metricW0.weeklyNumberOfReplies
     }
 
+   const chartUser : ChartTemplate = {
+        type : 'line',
+        title : 'Nouveaux utilisateurs',
+        labels : ['Semaine 0', 'Semaine 1', 'Semaine 2', 'Semaine 3'],
+        data : [dataChart.newUsers.W0, dataChart.newUsers.W1, dataChart.newUsers.W2, dataChart.newUsers.W3],
+        color: ['rgba(232, 80, 47,1)']
+    }
+
     const nbInteractions = mapMetric.nbComments + mapMetric.nbReposts + mapMetric.nbReplies;
+    const chartRepartition : ChartTemplate = {
+        type : 'doughnut',
+        title : 'Répartition des interactions',
+        labels : ['Commentaires', 'Reposts', 'Réponses'],
+        data : [mapMetric.nbComments/nbInteractions*100, mapMetric.nbReposts/nbInteractions*100, mapMetric.nbReplies/nbInteractions*100],
+    }
 </script>
 
 <div class="m-6" >
@@ -75,20 +91,17 @@
             <p class ="font-semibold">Interactions</p>
         </div>
 	</div>
-	<!-- <div class ="flex flex-wrap gap-8 my-6">
-		<div class="card flex flex-1 justify-center bg-white"><div class="placeholder-circle w-16" /></div>
-		<div class="card flex flex-1 justify-center bg-red-900"><div class="placeholder-circle w-16" /></div>
-	</div> -->
-	<div class ="flex flex-wrap justify-between my-6">
-		<div class="card flex w-[calc(60%-8px)] justify-center">    
-        <!-- <Line {data.chart} options={{ responsive: true }} />   -->
-        <WeekChart {dataChart} />
+	<div class ="flex justify-between my-6 h-96" >
+		<div class="card flex w-[calc(60%-8px)] justify-center">
+            <MyChart dataChart={chartUser}/>
         </div>
-		<div class="card flex w-[calc(40%-8px)] justify-center">
-            <div class="flex flex-1 justify-center items-center flex-col my-3">
-                <Fa size="4x" icon={faUser}/>
-                <p class="text-8xl text-primary-500"><Countup value={mapMetric.weeklyNbUser} duration={1000} step={1}/></p>
-                <p class =" text-xl text-center">Utilisateur<br>actifs</p>
+		<div class="flex w-[calc(40%-8px)] justify-center flex-col">
+            <div class="card flex flex-1 justify-center items-center h-1/4">
+                <p class="text-6xl px-5 text-primary-500"><Countup value={mapMetric.weeklyNbUser} duration={1000} step={1}/></p>
+                <p class ="text-center text-xl">Utilisateur actifs</p>
+            </div>
+            <div class="card flex flex-1 justify-center items-center p-5 flex-col mt-4 h-3/4">
+                <MyChart dataChart={chartRepartition} />
             </div>
         </div>
 	</div>

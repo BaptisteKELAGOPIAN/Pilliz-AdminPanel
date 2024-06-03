@@ -15,4 +15,4 @@ export type Ticket = {
     createdAt: Date;
     solved: boolean;
     solvedAt?: Date;
-  }
+}

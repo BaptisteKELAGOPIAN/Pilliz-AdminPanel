@@ -1,3 +1,5 @@
+import type { ChartTypeRegistry } from "chart.js";
+
 export type Metrics = {
     date: Date;
     numberOfUsers: number;
@@ -14,26 +16,10 @@ export type Metrics = {
     weeklyNumberOfReplies: number;
 }
 
-export type Chart = {
-    labels: string[];
-    datasets: {
-        label: string;
-        fill: boolean;
-        lineTension: number;
-        backgroundColor: string;
-        borderColor: string;
-        borderCapStyle: string;
-        borderDashOffset: number;
-        borderJoinStyle: string;
-        pointBorderColor: string;
-        pointBackgroundColor: string;
-        pointBorderWidth: number;
-        pointHoverRadius: number;
-        pointHoverBackgroundColor: string;
-        pointHoverBorderColor: string;
-        pointHoverBorderWidth: number;
-        pointRadius: number;
-        pointHitRadius: number;
-        data: number[];
-    }
+export type ChartTemplate = {
+    type : keyof ChartTypeRegistry,
+    title : string,
+    labels : string[],
+    data : number[],
+    color?: string[],
 }

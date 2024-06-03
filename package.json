@@ -42,11 +42,16 @@
   "dependencies": {
     "@auth/sveltekit": "^1.0.0",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
+    "@tiptap/core": "^2.3.1",
+    "@tiptap/pm": "^2.3.1",
+    "@tiptap/starter-kit": "^2.3.1",
+    "@vincjo/datatables": "^1.14.5",
     "chart.js": "^4.4.2",
     "dotenv": "^16.4.5",
     "svelte-chartjs": "^3.1.5",
     "svelte-countup": "^0.2.6",
     "svelte-fa": "^4.0.2",
-    "svelte-inview": "^4.0.2"
+    "svelte-inview": "^4.0.2",
+    "svelte-tiptap": "^1.1.2"
   }
 }
