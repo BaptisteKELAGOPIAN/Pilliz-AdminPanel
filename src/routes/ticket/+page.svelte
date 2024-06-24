@@ -4,15 +4,11 @@
 	import {  initializeStores, getModalStore, Modal } from '@skeletonlabs/skeleton';
 	import ModalTicket from './modalTicket.svelte';
 	import type { ModalComponent, ModalSettings} from '@skeletonlabs/skeleton';
-	import { invalidateAll, invalidate } from '$app/navigation';
-	import { onMount } from 'svelte';
+	import { invalidateAll  } from '$app/navigation';
 
 	export let data: { tickets: Ticket[] };
-	let tickets = data.tickets;
 
-	onMount(() => {
-		tickets = data.tickets;
-	});
+	console.log(data);
 
 	initializeStores();
 	const modalStore = getModalStore();

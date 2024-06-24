@@ -11,12 +11,12 @@ export const _getPostFromDatabase = async () => {
         throw new Error("Error while fetching tickets");
     }
     const tickets : Ticket[] = await response.json();
+    console.log(tickets)
     return { tickets } ;
 };
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load() {
-    console.log("load request");
 	const post = await _getPostFromDatabase();
 
 	if (post) {

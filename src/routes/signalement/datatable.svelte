@@ -15,6 +15,7 @@
 	const rows = handler.getRows();
   
 	function formatDate(date: string): string {
+		console.log(date);
 	  const dateString = new Date(date).toLocaleDateString("fr-FR", {
 		day: "2-digit",
 		month: "short",
@@ -35,8 +36,7 @@
 	<table class="table table-hover table-compact w-full table-auto">
 	  <thead>
 		<tr>
-		  <ThSort {handler} orderBy="id">ID</ThSort>
-		  <ThSort {handler} orderBy="titre">Titre</ThSort>
+		  <ThSort {handler} orderBy="date">Categorie</ThSort>
 		  <ThSort {handler} orderBy="description">Description</ThSort>
 		  <ThSort {handler} orderBy="date">Date</ThSort>
 		  <ThSort {handler} orderBy="etat">Etat</ThSort>
@@ -45,10 +45,9 @@
 	  <tbody>
 		{#each $rows as row}
 		  <tr on:click={() => onRowClick(row)} class="cursor-pointer">
-			<td>{row.id}</td>
-			<td>{row.titre}</td>
+			<td>{row.category}</td>
 			<td>{row.description.length > 10 ? row.description.substring(0, 10) + '...' : row.description}</td>
-			<td>{formatDate(row.date)}</td>
+			<td>{formatDate(row.createdAt)}</td>
 			<td>
 			  <span class="chip {row.etat ? 'variant-filled-success' : 'variant-filled-error'}">
 				{row.etat ? 'Résolue' : 'En cours'}
