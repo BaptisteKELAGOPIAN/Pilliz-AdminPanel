@@ -5,7 +5,6 @@ const serv_url = URL_DEV;
 const addResponse = "/Ticket/addResponse";
 
 export async function POST({request}) {
-    console.log("POST request");
     try {
         const requestDataText = await request.text();
         const requestDataParams = new URLSearchParams(requestDataText);
@@ -28,7 +27,6 @@ export async function POST({request}) {
             },
             body: formData.toString()
         });
-        console.log(response);
         if (response.status !== 200 && response.status !== 201) {
             throw new Error("Error while adding response");
         }

@@ -7,8 +7,6 @@
 
     export let data: { signalements: Signalement[] };
 
-	console.log(data);
-
     initializeStores();
 	const modalStore = getModalStore();
 

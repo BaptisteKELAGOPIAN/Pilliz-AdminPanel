@@ -11,7 +11,6 @@ export const _getPostFromDatabase = async () => {
         throw new Error("Error while fetching tickets");
     }
     const tickets : Ticket[] = await response.json();
-    console.log(tickets)
     return { tickets } ;
 };
 

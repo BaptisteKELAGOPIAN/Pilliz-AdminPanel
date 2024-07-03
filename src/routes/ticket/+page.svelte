@@ -8,8 +8,6 @@
 
 	export let data: { tickets: Ticket[] };
 
-	console.log(data);
-
 	initializeStores();
 	const modalStore = getModalStore();
 

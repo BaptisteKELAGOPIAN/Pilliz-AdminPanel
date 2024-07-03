@@ -5,7 +5,6 @@ const serv_url = URL_DEV;
 const changeTicketStatus = "/Ticket/changeTicketStatus";
 
 export async function POST(request) {
-    console.log("POST request");
     try {
     const url = new URL(request.url);
     const idTicket = url.searchParams.get('idTicket');

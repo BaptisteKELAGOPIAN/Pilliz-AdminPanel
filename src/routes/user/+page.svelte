@@ -1,177 +1,176 @@
 <script lang="ts">
-    import { Avatar, TabGroup, Tab } from '@skeletonlabs/skeleton';
-  
-    // Définissez l'interface de l'utilisateur
-    interface User {
-      id: string;
-      email: string;
-      name: string;
-      password: string;
-      role: string;
-      createdAt: Date;
-      updatedAt: Date;
-      firstConnection: boolean;
-      tutorialFeed: boolean;
-      tutorialMarketplace: boolean;
-      tutorialPro: boolean;
-      banned: string;
-      Post: any[];
-      Like: any[];
-      Repost: any[];
-      Comment: any[];
-      bio: string;
-      followedBy: any[];
-      following: any[];
-      Conversations: any[];
-      MessagesSend: any[];
-      MessagesReceived: any[];
-      isConnected: boolean;
-      profilPicture: string;
-      NotificatifionReceived: any[];
-      NotificationSend: any[];
-      codeVerification: number;
-      isVerified: boolean;
-      Reports: any[];
-      Documents: any[];
-      // Métriques
-      country: string;
-      totalAppTime: number;
-      totalFeedTime: number;
-      totalMarketTime: number;
-      totalProTime: number;
-      deviceRelease: string;
-      deviceVersion: string;
-      deviceName: string;
-      deviceWidth: number;
-      deviceHeight: number;
-      ticket: any[];
-      signalement: any[];
-    }
-  
-    // Créez un exemple d'utilisateur
-    const user: User = {
-      id: '1',
-      email: 'john.doe@example.com',
-      name: 'John Doe',
-      password: '********',
-      role: 'user',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      firstConnection: true,
-      tutorialFeed: false,
-      tutorialMarketplace: false,
-      tutorialPro: false,
-      banned: 'notBanned',
-      Post: [],
-      Like: [],
-      Repost: [],
-      Comment: [],
-      bio: 'A propos de moi',
-      followedBy: ["salut", "hello", "hola", "ciao", "hallo"],
-      following: ['salut', 'hello', 'hola', 'ciao'],
-      Conversations: [],
-      MessagesSend: [],
-      MessagesReceived: [],
-      isConnected: false,
-      profilPicture: 'https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp',
-      NotificatifionReceived: [],
-      NotificationSend: [],
-      codeVerification: 0,
-      isVerified: false,
-      Reports: [],
-      Documents: [],
-      // Métriques
-      country: 'France',
-      totalAppTime: 4500,
-      totalFeedTime: 100,
-      totalMarketTime: 250,
-      totalProTime: 0,
-      deviceRelease: 'Euro',
-      deviceVersion: '',
-      deviceName: 'Ipad',
-      deviceWidth: 450,
-      deviceHeight: 300,
-      ticket: [],
-      signalement: [],
-    };
+    import { Avatar, TabGroup, Tab, type ModalComponent, type ModalSettings, getModalStore, initializeStores } from '@skeletonlabs/skeleton';
+   
+    import type { User } from './user.dto';
+    import type { PostDto } from './post/post.dto';
+    import type { Signalement } from '../signalement/signalement.dto';
+    
+	  import { onMount } from 'svelte';
+
+    import Datatable from '../signalement/datatable.svelte';
+    import ModalSignalement from '../signalement/modalSignalement.svelte';
+    import Post from './post/post.svelte';
 
     let tabSet: number = 0;
+    const idUser = "6c2212ed-52de-4d77-b027-48d98c423dc9";
+
+    let user : User | null = null;
+    let loading = true;
+    onMount(async () => {
+      user = await getData();
+      loading = false;
+    });
+
+    let posts : PostDto[] | null = null;
+    let loadingMessage = true;
+    async function getMessage() {
+      const res = await fetch(`user/post?idUser=${idUser}`)
+      const data : PostDto[] = await res.json();
+      posts = data;
+      loadingMessage = false;
+    }
+
+    let signalements : Signalement[] = [];
+    let loadingSignalement = true;
+    async function getSignalement() {
+      const res = await fetch(`user/signalement?idUser=${idUser}`)
+      const data : Signalement[] = await res.json();
+      signalements = data;
+      loadingSignalement = false;
+    }
+  
+    async function getData() {
+      const res = await fetch(`user/get_user?idUser=${idUser}`)
+      const data : User = await res.json();
+      return data;
+    }
+
+    
+    initializeStores();
+    const modalStore = getModalStore();
+
+    async function handleRowClick(row: any) {
+      const modalComponent: ModalComponent = { ref: ModalSignalement,
+      };
+      const modal: ModalSettings = {
+        type: 'component',
+        title: row.titre,
+        body: row.description,
+        component: modalComponent,
+      };
+      modalStore.trigger(modal);
+    }
   </script>
   
-  <div class="py-5 px-5 flex w-full">
-    <div class="card py-5 px-5 flex flex-col w-1/3">
-        <div class="relative inline-block">
-            <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">20</div>
-            <Avatar />
+  <!-- button who called test -->
+  {#if loading}
+    <div>Loading...</div>
+  {:else if user}
+  <div class="flex w-full px-4" >
+    <div class="card flex flex-col mt-6 p-4">
+        <div class="relative inline-block flex justify-center">
+            <!-- <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-30 dark:border-gray-900">20</div> -->
+            <Avatar width="w-32"/>
         </div>
-        <div class="flex flex-col gap-2">
+        <div class="flex gap-2 flex-col items-center pt-4 pb-10">
+          <span class="font-extrabold "> {user.name}</span>
+          {user.bio}
+        </div>
         <div>
-            {user.bio}
-        </div>
-        <div class="flex gap-2">
-          <span> {user.name}</span>
-        </div>
-        <div class="flex gap-2">
-          <span>
+        <div class="flex gap-2 pb-4">
+          <span class="font-extrabold ">
             <a href={`mailto:${user.email}`}>{user.email}</a>
           </span>
         </div>
-        <div class="flex gap-2">
-          <span class="font-bold">Inscrit depuis:</span>
-          <span>{user.createdAt.toLocaleDateString()}</span>
+        <div class="flex gap-2 flex-wrap items-center justify-center">
+          Inscrit depuis: <span class="font-extrabold ">{user.createdAt}</span>
         </div>
       </div>
     </div>
-    <div class="card flex w-full">
+    <div class="card flex mt-6 ml-5 p-4">
         <TabGroup justify="justify-center" class="flex flex-grow w-full flex-col">
-            <!-- <Tab bind:group={tabSet} name="tab1" value={0}>
-                <svelte:fragment slot="lead">(icon)</svelte:fragment>
-                <span>(label 1)</span>
-            </Tab> -->
             <div class="flex flex-row">
-                <Tab bind:group={tabSet} name="tab2" value={0}>Detail</Tab>
-                <Tab bind:group={tabSet} name="tab2" value={1}>Messages</Tab>
-                <Tab bind:group={tabSet} name="tab3" value={2}>Tickets/Signalement</Tab>
+                <Tab bind:group={tabSet} name="tab2" value={0}><span class="font-extrabold ">Détail</span></Tab>
+                <Tab bind:group={tabSet} name="tab2" value={1} on:click={getMessage}><span class="font-extrabold ">Post</span></Tab>
+                <Tab bind:group={tabSet} name="tab3" value={2} on:click={getSignalement}><span class="font-extrabold ">Signalement</span></Tab>
             </div>
             <!-- Tab Panels --->
             <svelte:fragment slot="panel">
                 {#if tabSet === 0}
-                <div class="flex flex-wrap flex-row">
-                    <div class="flex flex-wrap flex-col w-1/3">
-                        <div><span>ID :</span> {user.id}</div>
-                        <div><span>Email :</span> {user.email}</div>
-                        <div><span>Nom :</span> {user.name}</div>
-                        <div><span>Rôle :</span> {user.role}</div>
-                        <div><span>Date de création :</span> {user.createdAt}</div>
-                        <div><span>Date de mise à jour :</span> {user.updatedAt}</div>
-                    </div>
-                    <div class="flex flex-col w-1/3">
-                        <div><span>Première connexion :</span> {user.firstConnection ? 'Oui' : 'Non'}</div>
-                        <div><span>Tutoriel fil d'actualités :</span> {user.tutorialFeed ? 'Oui' : 'Non'}</div>
-                        <div><span>Tutoriel marché :</span> {user.tutorialMarketplace ? 'Oui' : 'Non'}</div>
-                        <div><span>Tutoriel pro :</span> {user.tutorialPro ? 'Oui' : 'Non'}</div>
-                        <div><span>Statut de bannissement :</span> {user.banned}</div>
-                        <div><span>Vérifié :</span> {user.isVerified ? 'Oui' : 'Non'}</div>
-                        <div><span>Pays :</span> {user.country}</div>
-                    </div>
-                    <div class="flex flex-col w-1/3"> 
-                        <div><span>Temps total sur l'application :</span> {user.totalAppTime}</div>
-                        <div><span>Temps total sur le fil d'actualités :</span> {user.totalFeedTime}</div>
-                        <div><span>Temps total sur le marché :</span> {user.totalMarketTime}</div>
-                        <div><span>Temps total sur la version pro :</span> {user.totalProTime}</div>
-                        <div><span>Version de l'appareil :</span> {user.deviceRelease}</div>
-                        <div><span>Nom de l'appareil :</span> {user.deviceName}</div>
-                        <div><span>Largeur de l'appareil :</span> {user.deviceWidth}</div>
-                        <div><span>Hauteur de l'appareil :</span> {user.deviceHeight}</div>
-                    </div>   
+                <div class="grid grid-cols-3 gap-20">
+                  <div class="grid grid-cols-2 gap-1">
+                      <div class="font-extrabold ">ID :</div>
+                      <div>{user.id}</div>
+                      <div class="font-extrabold ">Email :</div>
+                      <div>{user.email}</div>
+                      <div class="font-extrabold ">Nom :</div>
+                      <div>{user.name}</div>
+                      <div class="font-extrabold ">Rôle :</div>
+                      <div>{user.role}</div>
+                      <div class="font-extrabold ">Date de création :</div>
+                      <div>{user.createdAt}</div>
+                      <div class="font-extrabold ">Date de mise à jour :</div>
+                      <div>{user.updatedAt}</div>
                   </div>
+                  <div class="grid grid-cols-2 gap-1">
+                      <div class="font-extrabold ">Première connexion :</div>
+                      <div>{user.firstConnection ? 'Oui' : 'Non'}</div>
+                      <div class="font-extrabold ">Tutoriel fil d'actualités :</div>
+                      <div>{user.tutorialFeed ? 'Oui' : 'Non'}</div>
+                      <div class="font-extrabold ">Tutoriel marché :</div>
+                      <div>{user.tutorialMarketplace ? 'Oui' : 'Non'}</div>
+                      <div class="font-extrabold ">Tutoriel pro :</div>
+                      <div>{user.tutorialPro ? 'Oui' : 'Non'}</div>
+                      <div class="font-extrabold ">Statut de bannissement :</div>
+                      <div>{user.banned}</div>
+                      <div class="font-extrabold ">Vérifié :</div>
+                      <div>{user.isVerified ? 'Oui' : 'Non'}</div>
+                      <div class="font-extrabold ">Pays :</div>
+                      <div>{user.country}</div>
+                  </div>
+                  <div class="grid grid-cols-2 gap-1">
+                      <div class="font-extrabold ">Temps total général :</div>
+                      <div>{user.totalAppTime}</div>
+                      <div class="font-extrabold ">Temps total main fil :</div>
+                      <div>{user.totalFeedTime}</div>
+                      <div class="font-extrabold ">Temps total market :</div>
+                      <div>{user.totalMarketTime}</div>
+                      <div class="font-extrabold ">Temps total pro :</div>
+                      <div>{user.totalProTime}</div>
+                      <div class="font-extrabold ">Version de l'appareil :</div>
+                      <div>{user.deviceRelease}</div>
+                      <div class="font-extrabold ">Nom de l'appareil :</div>
+                      <div>{user.deviceName}</div>
+                      <div class="font-extrabold ">Largeur de l'appareil :</div>
+                      <div>{user.deviceWidth}</div>
+                      <div class="font-extrabold ">Hauteur de l'appareil :</div>
+                      <div>{user.deviceHeight}</div>
+                  </div>
+              </div>
+
                 {:else if tabSet === 1}
-                    (tab panel 2 contents)
+                <div>
+                    {#if loadingMessage}
+                      loading...
+                    {:else if posts != null}
+                      <Post datapost={posts}/>
+                    {:else}
+                      <div>Une erreur s'est produite lors du chargement des messages.</div>
+                    {/if}
+                </div>
                 {:else if tabSet === 2}
-                    (tab panel 3 contents)
+                  {#if loadingSignalement}
+                    loading...
+                  {:else if signalements != null}
+                    <Datatable datatable={signalements} onRowClick={handleRowClick}/>
+                  {:else}
+                    <div>Une erreur s'est produite lors du chargement des signalements.</div>
+                  {/if}
                 {/if}
             </svelte:fragment>
         </TabGroup>
     </div>
   </div>
-  
+  {:else}
+  <div>Une erreur s'est produite lors du chargement des données utilisateur.</div>
+{/if}
