@@ -2,6 +2,8 @@
 # Pilliz panel admin
 
 An intuitive web admin panel for managing users, moderating content, and tracking activities within our student network.
+
+
 ![App Screenshot](https://i.ibb.co/YktHXj7/dashboard.png)
 
 ![App Screenshot](https://i.ibb.co/hc2tL31/home.png)
