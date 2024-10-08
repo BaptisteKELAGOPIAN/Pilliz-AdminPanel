@@ -123,10 +123,10 @@ function colorBubble(category: string): string {
                 showPreviousNextButtons="{true}"
             />
                 </div>
-                <ul>
+                <ul class="w-10/12 max-w-md">
                     {#each paginatedSource as bubble}
-                    <div class="justify-stretch grid grid-cols-[auto_1fr] gap-2 py-2">
-                        <div class="w-[550px] pb-4 px-4 pt-2 rounded-tl-none space-y-2 rounded-lg border-4 {colorBubble(bubble.category.toString())}">
+                    <div class="justify-stretch gap-2 py-2">
+                        <div class="pb-4 px-4 pt-2 rounded-tl-none space-y-2 rounded-lg border-4 {colorBubble(bubble.category.toString())}">
                             <header class="flex justify-between items-center">
                                 <div class="flex justify-between items-center">
                                 {#if bubble.category.toString() == 'bonPlan'}

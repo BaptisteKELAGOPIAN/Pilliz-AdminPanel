@@ -1,10 +1,11 @@
 import { json } from '@sveltejs/kit';
 import { URL_DEV } from '$env/static/private';
+import fetcher from '$lib/server/fetch';
 
 const serv_url = URL_DEV;
 const posteAnnonce = "/announcement/createAnnouncement";
 
-export async function POST({request}) {
+export async function POST({request, cookies}) {
     try {
         const requestDataText = await request.text();
         const requestDataParams = new URLSearchParams(requestDataText);
@@ -31,7 +32,7 @@ export async function POST({request}) {
         formData.append('title', requestData.title) ;
         formData.append('content', requestData.content) ;
 
-        const response = await fetch(`${serv_url}${posteAnnonce}`, {
+        const response = await fetcher({request, cookies}, `${serv_url}${posteAnnonce}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'

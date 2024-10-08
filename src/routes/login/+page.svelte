@@ -13,6 +13,10 @@
             <Fa size="3x" icon={faLock}/>
         </div>
         <form method="POST" class="flex flex-col items-center">
+            <label class="label mb-6">
+                <span>Identifiant</span>
+                <input class="input" name="userid" type="text" placeholder="ton id" />
+            </label>
             <label class="label mb-6 w-full">
                 <span>Email</span>
                 <input class="input" name="email" type="email" placeholder="your@email" />
